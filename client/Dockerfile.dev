@@ -1,0 +1,6 @@
+FROM node:alpine
+WORKDIR '/app'
+COPY ./package.json ./
+COPY . .
+CMD ["npm", "install", "axios"]
+CMD ["npm", "run", "start"]
