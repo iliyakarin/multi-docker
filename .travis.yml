@@ -6,7 +6,7 @@ before_install:
   - docker build -t iliyakarin/react-test -f ./client/Dockerfile.dev ./client
 
 script: 
-  - docker run iliyakarin/react-test npm run test -- --coverage
+  - docker run iliyakarin/react-test npm test -- --coverage
 
 after_success:
   - docker build -t iliyakarin/multi-client ./client
