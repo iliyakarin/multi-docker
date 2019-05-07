@@ -14,7 +14,7 @@ after_success:
   - docker build -t iliyakarin/multi-server ./server
   - docker build -t iliyakarin/multi-worker ./worker
   # log in to docker cli
-  - echo "$docker_password" | docker login -u "$docker_id" --password-stdin
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # Push images
   - docker push iliyakarin/multi-client
   - docker push iliyakarin/multi-nginx
