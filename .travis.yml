@@ -1,0 +1,22 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t iliyakarin/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run iliyakarin/react-test npm test -- --coverage
+
+after_success:
+  - docker build -t iliyakarin/multi-client ./client
+  - docker build -t iliyakarin/multi-nginx ./nginx
+  - docker build -t iliyakarin/multi-server ./server
+  - docker build -t iliyakarin/multi-worker ./worker
+  # log in to docker cli
+  - echo "$docker_password" | docker login -u "$docker_id" --password-stdin
+  # Push images
+  - docker push iliyakarin/multi-client
+  - docker push iliyakarin/multi-nginx
+  - docker push iliyakarin/multi-server
+  - docker push iliyakarin/multi-worker
