@@ -14,8 +14,9 @@ class App extends Component {
             <img src={logo} className="App-logo" alt="logo" />
             <h1 className="App-title">Fibonacci calculator</h1>
             <Link to="/"> Home </Link>
-            <Text>{"/n"}</Text>
+            <span><br/></span>
             <Link to="/otherpage"> Other Page </Link>
+            <span><br/><br/></span>
           </header>
           <div>
             <Route exact path="/" component={Fib} />

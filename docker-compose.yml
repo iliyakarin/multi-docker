@@ -20,7 +20,8 @@ services:
       - PGDATABASE=postgres
       - POSTGRES_PASSWORD=postgres_password
       - PGPORT=5432
-  client: 
+  client:
+    stdin_open: true 
     build: 
       dockerfile: Dockerfile.dev
       context: ./client
@@ -37,7 +38,10 @@ services:
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
-  nginx: 
+  nginx:
+    depends_on:
+      - api
+      - client 
     restart: always
     build: 
       dockerfile: Dockerfile.dev
