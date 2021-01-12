@@ -1,21 +1,23 @@
 sudo: required
+language: generic
+
 services:
   - docker
 
 before_install:
   - docker build -t iliyakarin/react-test -f ./client/Dockerfile.dev ./client
 
-script: 
-  - docker run iliyakarin/react-test npm test -- --coverage
+script:
+  - docker run -e CI=true iliyakarin/react-test npm test
 
 after_success:
   - docker build -t iliyakarin/multi-client ./client
   - docker build -t iliyakarin/multi-nginx ./nginx
   - docker build -t iliyakarin/multi-server ./server
   - docker build -t iliyakarin/multi-worker ./worker
-  # log in to docker cli
+  # Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-  # Push images
+  # Take those images and push them to docker hub
   - docker push iliyakarin/multi-client
   - docker push iliyakarin/multi-nginx
   - docker push iliyakarin/multi-server
@@ -23,13 +25,13 @@ after_success:
 
 deploy:
   provider: elasticbeanstalk
-  region: us-east-2
-  app: multi-docker
-  env: MultiDocker-env
-  bucket_name: elasticbeanstalk-us-east-2-804066141946
-  bucket_path: docker-multi
+  region: 'us-east-2'
+  app: 'multi-docker'
+  env: 'MultiDocker-env'
+  bucket_name: 'elasticbeanstalk-us-east-2-804066141946'
+  bucket_path: 'docker-multi'
   on:
     branch: master
   access_key_id: $AWS_ACCESS_KEY
-  secret_access_key:
-    secure: $AWS_SECRET_KEY
+  secret_access_key: $AWS_SECRET_KEY
+
