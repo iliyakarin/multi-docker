@@ -40,6 +40,8 @@ services:
       - /app/node_modules
       - ./client:/app
   worker:
+    depends_on:
+      - redis
     build:
       dockerfile: Dockerfile.dev
       context: ./worker
